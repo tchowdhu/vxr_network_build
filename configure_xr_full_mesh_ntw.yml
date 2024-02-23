@@ -1,0 +1,91 @@
+---
+- name: Configure full mesh network on Cisco XR routers with IPv4 and IPv6
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Configure interfaces on VXR1
+      cisco.iosxr.iosxr_interfaces:
+        config:
+          - name: GigabitEthernet0/0/0/0
+            enabled: true
+            ipv4:
+              address:
+                - primary:
+                    address: 192.168.1.1
+                    mask: 30
+            ipv6:
+              address:
+                - primary:
+                    address: 2001:db8:1::1
+                    mask: 64
+          - name: GigabitEthernet0/0/0/1
+            enabled: true
+            ipv4:
+              address:
+                - primary:
+                    address: 192.168.1.5
+                    mask: 30
+            ipv6:
+              address:
+                - primary:
+                    address: 2001:db8:2::1
+                    mask: 64
+      when: inventory_hostname == 'VXR1'
+
+    - name: Configure interfaces on VXR2
+      cisco.iosxr.iosxr_interfaces:
+        config:
+          - name: GigabitEthernet0/0/0/0
+            enabled: true
+            ipv4:
+              address:
+                - primary:
+                    address: 192.168.1.2
+                    mask: 30
+            ipv6:
+              address:
+                - primary:
+                    address: 2001:db8:1::2
+                    mask: 64
+          - name: GigabitEthernet0/0/0/1
+            enabled: true
+            ipv4:
+              address:
+                - primary:
+                    address: 192.168.1.9
+                    mask: 30
+            ipv6:
+              address:
+                - primary:
+                    address: 2001:db8:3::1
+                    mask: 64
+      when: inventory_hostname == 'VXR2'
+
+    - name: Configure interfaces on VXR3
+      cisco.iosxr.iosxr_interfaces:
+        config:
+          - name: GigabitEthernet0/0/0/0
+            enabled: true
+            ipv4:
+              address:
+                - primary:
+                    address: 192.168.1.6
+                    mask: 30
+            ipv6:
+              address:
+                - primary:
+                    address: 2001:db8:2::2
+                    mask: 64
+          - name: GigabitEthernet0/0/0/1
+            enabled: true
+            ipv4:
+              address:
+                - primary:
+                    address: 192.168.1.10
+                    mask: 30
+            ipv6:
+              address:
+                - primary:
+                    address: 2001:db8:3::2
+                    mask: 64
+      when: inventory_hostname == 'VXR3'
