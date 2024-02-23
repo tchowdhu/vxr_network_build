@@ -1,0 +1,58 @@
+---
+- name: Configure Cisco XR Routers
+  hosts: vxr_routers
+  gather_facts: false
+
+  tasks:
+
+    - name: Configure LLDP, SNMP traps and Syslog
+      cisco.iosxr.iosxr_config:
+        lines:
+
+          - lldp
+          - snmp-server ifindex persist
+          - snmp-server host {{ syslog_trap_server  }} traps version 2c cisco udp-port 1062
+          - snmp-server community public RO
+          - snmp-server community private RW
+          - snmp-server traps snmp linkup
+          - snmp-server traps snmp linkdown
+          - snmp-server trap-source MgmtEth0/RP0/CPU0/0
+          - snmp-server traps isis all
+          - logging trap informational
+          - logging events level informational
+          - logging console disable
+          - logging buffered 10000000
+          - logging {{ syslog_trap_server }} vrf default port 9514
+          - logging source-interface MgmtEth0/RP0/CPU0/0
+          - logging hostnameprefix {{ inventory_hostname }}
+          - logging events link-status software-interfaces
+          - telnet vrf default ipv4 server max-servers 100
+          - telnet vrf Mgmt-intf ipv4 server max-servers 100
+
+
+    - name: Configure SSH and Netconf
+      cisco.iosxr.iosxr_config:
+         lines:
+
+          - ssh server rate-limit 600
+          - ssh server session-limit 110
+          - ssh server v2
+          - ssh server vrf default
+          - ssh server netconf vrf default
+          - netconf agent tty
+          - netconf-yang agent ssh
+
+    - name: Configure Loopback0 Interface
+      cisco.iosxr.iosxr_config:
+        lines:
+
+          - ipv4 address {{ loopback_ipv4 }} 255.255.255.255
+          - ipv6 address {{ loopback_ipv6 }}/128
+          - no shutdown
+
+        parents:
+          - interface Loopback0
+
+      vars:
+        - loopback_ipv4: "{{ loopback_ips_v4[inventory_hostname] }}"
+        - loopback_ipv6: "{{ loopback_ips_v6[inventory_hostname] }}"
