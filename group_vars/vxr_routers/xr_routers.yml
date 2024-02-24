@@ -15,3 +15,36 @@ loopback_ips_v6:
   VXR6: 2024::6
 
 grpc_port: 57400
+
+isis_router_tag:
+  VXR1: 1
+  VXR2: 1
+  VXR3: 1
+  VXR4: 1
+  VXR5: 1
+  VXR6: 1
+
+isis_net_id:
+  VXR1: 49.0010.0100.0001.00
+  VXR2: 49.0010.0100.0002.00
+  VXR3: 49.0010.0100.0003.00
+  VXR4: 49.0010.0100.0004.00
+  VXR5: 49.0010.0100.0005.00
+  VXR6: 49.0010.0100.0006.00
+
+sr_abs_sid:
+  VXR1: 16001
+  VXR2: 16002
+  VXR3: 16003
+  VXR4: 16004
+  VXR5: 16005
+  VXR6: 16006
+
+sr_stc_abs_sid:
+  VXR1: 17001
+  VXR2: 17002
+  VXR3: 17003
+  VXR4: 17004
+  VXR5: 17005
+  VXR6: 17006
+
