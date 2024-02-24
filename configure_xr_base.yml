@@ -56,3 +56,15 @@
       vars:
         - loopback_ipv4: "{{ loopback_ips_v4[inventory_hostname] }}"
         - loopback_ipv6: "{{ loopback_ips_v6[inventory_hostname] }}"
+
+    - name: Enable grpc
+      cisco.iosxr.iosxr_config:
+        lines:
+
+          - port {{ grpc_port }}
+          - no-tls
+          - address-family dual
+
+        parents:
+          - grpc
+

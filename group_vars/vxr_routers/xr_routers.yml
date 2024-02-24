@@ -13,3 +13,5 @@ loopback_ips_v6:
   VXR4: 2024::4
   VXR5: 2024::5
   VXR6: 2024::6
+
+grpc_port: 57400
