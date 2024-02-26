@@ -48,3 +48,204 @@ sr_stc_abs_sid:
   VXR5: 17005
   VXR6: 17006
 
+isis_interfaces:
+  VXR1:
+    - name: GigabitEthernet0/0/0/0
+      is_flex_algo: 1
+      fles_algo_affinity: top
+    - name: GigabitEthernet0/0/0/1
+      is_flex_algo: 1
+      fles_algo_affinity: bottom
+  VXR2:
+    - name: GigabitEthernet0/0/0/0
+      is_flex_algo: 1
+      fles_algo_affinity: top
+    - name: GigabitEthernet0/0/0/1
+      is_flex_algo: 0
+      fles_algo_affinity: NA
+    - name: GigabitEthernet0/0/0/2
+      is_flex_algo: 1
+      fles_algo_affinity: top
+  VXR3:
+    - name: GigabitEthernet0/0/0/0
+      is_flex_algo: 1
+      fles_algo_affinity: bottom
+    - name: GigabitEthernet0/0/0/1
+      is_flex_algo: 0
+      fles_algo_affinity: NA
+    - name: GigabitEthernet0/0/0/2
+      is_flex_algo: 1
+      fles_algo_affinity: bottom
+  VXR4:
+    - name: GigabitEthernet0/0/0/0
+      is_flex_algo: 1
+      fles_algo_affinity: top
+    - name: GigabitEthernet0/0/0/1
+      is_flex_algo: 0
+      fles_algo_affinity: NA
+    - name: GigabitEthernet0/0/0/2
+      is_flex_algo: 1
+      fles_algo_affinity: top
+  VXR5:
+    - name: GigabitEthernet0/0/0/0
+      is_flex_algo: 1
+      fles_algo_affinity: bottom
+    - name: GigabitEthernet0/0/0/1
+      is_flex_algo: 0
+      fles_algo_affinity: NA
+    - name: GigabitEthernet0/0/0/2
+      is_flex_algo: 1
+      fles_algo_affinity: bottom
+  VXR6:
+    - name: GigabitEthernet0/0/0/0
+      is_flex_algo: 1
+      fles_algo_affinity: top
+    - name: GigabitEthernet0/0/0/1
+      is_flex_algo: 1
+      fles_algo_affinity: bottom
+
+rsvp_interfaces:
+  VXR1:
+    - name: GigabitEthernet0/0/0/0
+      bw_percent: 100
+    - name: GigabitEthernet0/0/0/1
+      bw_percent: 100
+  VXR2:
+    - name: GigabitEthernet0/0/0/0
+      bw_percent: 100
+    - name: GigabitEthernet0/0/0/1
+      bw_percent: 100
+    - name: GigabitEthernet0/0/0/2
+      bw_percent: 100
+  VXR3:
+    - name: GigabitEthernet0/0/0/0
+      bw_percent: 100
+    - name: GigabitEthernet0/0/0/1
+      bw_percent: 100
+    - name: GigabitEthernet0/0/0/2
+      bw_percent: 100
+  VXR4:
+    - name: GigabitEthernet0/0/0/0
+      bw_percent: 100
+    - name: GigabitEthernet0/0/0/1
+      bw_percent: 100
+    - name: GigabitEthernet0/0/0/2
+      bw_percent: 100
+  VXR5:
+    - name: GigabitEthernet0/0/0/0
+      bw_percent: 100
+    - name: GigabitEthernet0/0/0/1
+      bw_percent: 100
+    - name: GigabitEthernet0/0/0/2
+      bw_percent: 100
+  VXR6:
+    - name: GigabitEthernet0/0/0/0
+      bw_percent: 100
+    - name: GigabitEthernet0/0/0/1
+      bw_percent: 100
+
+mpls_interfaces:
+  VXR1:
+    - name: GigabitEthernet0/0/0/0
+      attribute-names: RED
+      admin-weight: 10
+    - name: GigabitEthernet0/0/0/1
+      attribute-names: RED
+      admin-weight: 10
+  VXR2:
+    - name: GigabitEthernet0/0/0/0
+      attribute-names: RED
+      admin-weight: 10
+    - name: GigabitEthernet0/0/0/1
+      attribute-names: RED
+      admin-weight: 10
+    - name: GigabitEthernet0/0/0/2
+      attribute-names: RED
+      admin-weight: 10
+  VXR3:
+    - name: GigabitEthernet0/0/0/0
+      attribute-names: RED
+      admin-weight: 10
+    - name: GigabitEthernet0/0/0/1
+      attribute-names: RED
+      admin-weight: 10
+    - name: GigabitEthernet0/0/0/2
+      attribute-names: RED
+      admin-weight: 10
+  VXR4:
+    - name: GigabitEthernet0/0/0/0
+      attribute-names: RED
+      admin-weight: 10
+    - name: GigabitEthernet0/0/0/1
+      attribute-names: RED
+      admin-weight: 10
+    - name: GigabitEthernet0/0/0/2
+      attribute-names: RED
+      admin-weight: 10
+  VXR5:
+    - name: GigabitEthernet0/0/0/0
+      attribute-names: RED
+      admin-weight: 10
+    - name: GigabitEthernet0/0/0/1
+      attribute-names: RED
+      admin-weight: 10
+    - name: GigabitEthernet0/0/0/2
+      attribute-names: RED
+      admin-weight: 10
+  VXR6:
+    - name: GigabitEthernet0/0/0/0
+      attribute-names: RED
+      admin-weight: 10
+    - name: GigabitEthernet0/0/0/1
+      attribute-names: RED
+      admin-weight: 10
+
+pce_server_1: 192.168.30.57
+
+rsvp_loopback_ips_v4:
+  VXR1: 50.50.50.1
+  VXR2: 50.50.50.2
+  VXR3: 50.50.50.3
+  VXR4: 50.50.50.4
+  VXR5: 50.50.50.5
+  VXR6: 50.50.50.6
+
+rsvp_loopback_ips_v6:
+  VXR1: 2024::11
+  VXR2: 2024::22
+  VXR3: 2024::33
+  VXR4: 2024::44
+  VXR5: 2024::55
+  VXR6: 2024::66
+
+srv6_prefix:
+  VXR1: 
+      TOP:  fcbb:2:1::/48
+      MAIN: fcbb:0:1::/48
+      BOTTOM: fcbb:3:1::/48
+      LATENCY: fcbb:1:1::/48
+  VXR2:  
+      TOP:  fcbb:2:2::/48
+      MAIN: fcbb:0:2::/48
+      BOTTOM: fcbb:3:2::/48
+      LATENCY: fcbb:1:2::/48
+  VXR3:  
+      TOP:  fcbb:2:3::/48
+      MAIN: fcbb:0:3::/48
+      BOTTOM: fcbb:3:3::/48
+      LATENCY: fcbb:1:3::/48
+  VXR4:  
+      TOP:  fcbb:2:4::/48
+      MAIN: fcbb:0:4::/48
+      BOTTOM: fcbb:3:4::/48
+      LATENCY: fcbb:1:4::/48
+  VXR5:  
+      TOP:  fcbb:2:5::/48
+      MAIN: fcbb:0:5::/48
+      BOTTOM: fcbb:3:5::/48
+      LATENCY: fcbb:1:5::/48
+  VXR6:  
+      TOP:  fcbb:2:6::/48
+      MAIN: fcbb:0:6::/48
+      BOTTOM: fcbb:3:6::/48
+      LATENCY: fcbb:1:6::/48
