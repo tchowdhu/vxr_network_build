@@ -1,3 +1,11 @@
+hostname_vxrs:
+  VXR1: VXR1
+  VXR2: VXR2
+  VXR3: VXR3
+  VXR4: VXR4
+  VXR5: VXR5
+  VXR6: VXR6
+
 loopback_ips_v4:
   VXR1: 30.30.30.1
   VXR2: 30.30.30.2
@@ -5,6 +13,7 @@ loopback_ips_v4:
   VXR4: 30.30.30.4
   VXR5: 30.30.30.5
   VXR6: 30.30.30.6
+  SRPCE: 192.168.30.57
 
 loopback_ips_v6:
   VXR1: 2024::1
@@ -13,6 +22,7 @@ loopback_ips_v6:
   VXR4: 2024::4
   VXR5: 2024::5
   VXR6: 2024::6
+  SRPCE: 2024::57
 
 grpc_port: 57400
 
@@ -23,6 +33,7 @@ isis_router_tag:
   VXR4: 1
   VXR5: 1
   VXR6: 1
+  SRPCE: 1
 
 isis_net_id:
   VXR1: 49.0010.0100.0001.00
@@ -31,6 +42,7 @@ isis_net_id:
   VXR4: 49.0010.0100.0004.00
   VXR5: 49.0010.0100.0005.00
   VXR6: 49.0010.0100.0006.00
+  SRPCE: 49.0010.0100.0057.00
 
 sr_abs_sid:
   VXR1: 16001
@@ -56,6 +68,9 @@ isis_interfaces:
     - name: GigabitEthernet0/0/0/1
       is_flex_algo: 1
       fles_algo_affinity: bottom
+    - name: GigabitEthernet0/0/0/2
+      is_flex_algo: 0
+      fles_algo_affinity: NA
   VXR2:
     - name: GigabitEthernet0/0/0/0
       is_flex_algo: 1
@@ -103,6 +118,10 @@ isis_interfaces:
     - name: GigabitEthernet0/0/0/1
       is_flex_algo: 1
       fles_algo_affinity: bottom
+  SRPCE:
+    - name: GigabitEthernet0/0/0/0
+      is_flex_algo: no
+      fles_algo_affinity: NA
 
 rsvp_interfaces:
   VXR1:
@@ -201,6 +220,9 @@ mpls_interfaces:
       admin-weight: 10
 
 pce_server_1: 192.168.30.57
+pce_p2p_intf: GigabitEthernet0/0/0/0
+pce_p2p_ipv4: 172.16.1.13/24
+pce_p2p_ipv6: 2001:db8:100::2/64
 
 rsvp_loopback_ips_v4:
   VXR1: 50.50.50.1

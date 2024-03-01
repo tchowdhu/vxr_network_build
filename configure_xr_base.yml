@@ -9,6 +9,7 @@
       cisco.iosxr.iosxr_config:
         lines:
 
+          - hostname {{ hostname_vxrs[inventory_hostname] }}
           - lldp
           - snmp-server ifindex persist
           - snmp-server host {{ syslog_trap_server  }} traps version 2c cisco udp-port 1062
