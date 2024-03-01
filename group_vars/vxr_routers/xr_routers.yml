@@ -271,3 +271,47 @@ srv6_prefix:
       MAIN: fcbb:0:6::/48
       BOTTOM: fcbb:3:6::/48
       LATENCY: fcbb:1:6::/48
+  
+bgp_is_ls:
+  VXR1: 1
+  VXR2: 0
+  VXR3: 0
+  VXR4: 0
+  VXR5: 0
+  VXR6: 0
+  
+bpg_local_as:
+  VXR1: 65000
+  VXR2: 65000
+  VXR3: 65000
+  VXR4: 65000
+  VXR5: 65000
+  VXR6: 65000
+
+bpg_remote_as:
+  VXR1: 65000
+  VXR2: 65000
+  VXR3: 65000
+  VXR4: 65000
+  VXR5: 65000
+  VXR6: 65000
+
+bgp_neighbors:
+  VXR1:
+    - ip_v4: 192.168.30.57
+      is_ls: 1
+  VXR2:
+    - ip_v4: 192.168.30.57
+      is_ls: 0
+  VXR3:
+    - ip_v4: 192.168.30.57
+      is_ls: 0
+  VXR4:
+    - ip_v4: 192.168.30.57
+      is_ls: 0
+  VXR5:
+    - ip_v4: 192.168.30.57
+      is_ls: 0
+  VXR6:
+    - ip_v4: 192.168.30.57
+      is_ls: 0
