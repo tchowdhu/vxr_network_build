@@ -1,0 +1,79 @@
+router isis {{ isis_router_tag[inventory_hostname] }}
+ net {{ isis_net_id[inventory_hostname] }}
+ distribute link-state
+ log adjacency changes
+ affinity-map top bit-position 101
+ affinity-map bottom bit-position 102
+ address-family ipv4 unicast
+  metric-style wide
+  mpls traffic-eng level-2-only
+  mpls traffic-eng router-id Loopback0
+  router-id {{ loopback_ips_v4[inventory_hostname] }}
+  redistribute static
+  segment-routing mpls
+ !
+ address-family ipv6 unicast
+  metric-style wide
+  advertise link attributes
+  router-id Loopback0
+  redistribute static
+  segment-routing srv6
+   locator TOP
+    level 2
+   !
+   locator MAIN
+    level 2
+   !
+   locator BOTTOM
+    level 2
+   !
+   locator LATENCY
+    level 2
+   !
+  !
+ !
+ flex-algo 128
+  priority 200
+  metric-type delay
+  advertise-definition
+ !
+ flex-algo 129
+  priority 200
+  advertise-definition
+  affinity exclude-any bottom
+ !
+ flex-algo 130
+  priority 200
+  advertise-definition
+  affinity exclude-any top
+ !
+ interface Loopback0
+  passive
+  circuit-type level-2-only
+  address-family ipv4 unicast
+    prefix-sid absolute {{ sr_abs_sid[inventory_hostname] }}
+    prefix-sid algorithm 128 absolute {{ algorithm_128_sid }}
+    prefix-sid algorithm 129 absolute {{ algorithm_129_sid }}
+    prefix-sid algorithm 130 absolute {{ algorithm_130_sid }}
+    prefix-sid strict-spf absolute {{ sr_stc_abs_sid[inventory_hostname] }}
+  !
+  address-family ipv6 unicast
+  !
+ !
+{% for intf in isis_interfaces[inventory_hostname] %}
+ interface {{ intf.name }}
+  circuit-type level-2-only
+ {% if intf.is_flex_algo == 1 %}
+  affinity flex-algo {{ intf.fles_algo_affinity }}
+ {% endif %}
+  point-to-point
+  address-family ipv4 unicast
+   fast-reroute per-prefix
+   fast-reroute per-prefix ti-lfa
+  !
+  address-family ipv6 unicast
+   fast-reroute per-prefix
+   fast-reroute per-prefix ti-lfa
+  !
+ !
+{% endfor %}

@@ -1,0 +1,138 @@
+---
+- name: Getting Json Playload
+  hosts: vxr_routers
+  vars:
+    nso_provider_name: "NSO-v6.1.4"
+    device_profile: "vXRCML"
+    template_path: "device_add_template.j2"
+    mask: 22
+
+  tasks:
+    - name: Generate JSON payload from a Jinja template
+      set_fact:
+        add_device_payload: "{{ lookup('template', template_path) }}"
+
+- name: Update Resource Using REST API with Basic Authentication
+  hosts: localhost
+  gather_facts: no
+  vars:
+    cnc_ip: "W.X.Y.Z" # Change this based on network
+    cnc_port: 30603
+    api_url: "https://{{ cnc_ip }}:{{ cnc_port }}/crosswork/sso/v1/tickets"  # URL to the resource you want to update
+    api_user: "admin"  # API username
+    api_password: "password"  # API password
+    # Example payload to update the resource, adjust as needed.
+    add_device_payloads:
+      - "{{ hostvars['VXR1']['add_device_payload'] }}"
+      - "{{ hostvars['VXR2']['add_device_payload'] }}"
+      - "{{ hostvars['VXR3']['add_device_payload'] }}"
+      - "{{ hostvars['VXR4']['add_device_payload'] }}"
+      - "{{ hostvars['VXR5']['add_device_payload'] }}"
+      - "{{ hostvars['VXR6']['add_device_payload'] }}"
+  
+  tasks:
+    - name: Get Ticket
+      uri:
+        url: "{{ api_url }}"
+        method: POST
+        body: "username={{ api_user }}&password={{ api_password }}"
+        headers:
+          Content-Type: 'application/x-www-form-urlencoded'
+          Accept: 'text/plain'
+        force_basic_auth: yes
+        validate_certs: no
+        status_code: [200, 204, 201]  # Expected success codes, adjust as needed.
+      register: response
+
+    - name: Check hostvar keys
+      debug:
+        msg: "{{ hostvars.keys() }}"
+
+    - name: Extract Ticket ID from URL
+      set_fact:
+        ticket_id: "{{ response.location | regex_search('(TGT-[^/]+)') }}"
+
+    - name: Display ticket id
+      debug:
+        msg: "{{ ticket_id }}"
+
+    - name: Get Token
+      uri:
+        url: "https://{{ cnc_ip }}:{{ cnc_port }}/crosswork/sso/v1/tickets/{{ ticket_id }}"
+        method: POST
+        body: "service=https://{{ cnc_ip }}:{{ cnc_port }}/app-dashboard"
+        headers:
+          Content-Type: 'application/x-www-form-urlencoded'
+        force_basic_auth: yes
+        validate_certs: no
+        status_code: [200, 204, 201]  # Expected success codes, adjust as needed.
+        return_content: yes
+      register: response_token
+
+    - name: Display token
+      debug:
+        msg: "{{ response_token.content }}"
+
+    - name: Add Device to CNC
+      uri:
+        url: "https://{{ cnc_ip }}:{{ cnc_port }}/crosswork/inventory/v1/nodes"
+        method: POST
+        body_format: json
+        body: "{{ item }}"
+        headers:
+          Content-Type: 'application/yang-data+json'
+          Accept: 'application/yang-data+json'
+          Authorization: 'Bearer {{ response_token.content }}'
+        force_basic_auth: yes
+        validate_certs: no
+        status_code: [200, 204, 201]  # Expected success codes, adjust as needed.
+        return_content: yes
+      loop: "{{ add_device_payloads }}"
+      register: response_add
+
+    - name: Get Device ID to add to CDG
+      set_fact: 
+        device_uuid_list: "{{ device_uuid_list | default([]) + [item.json.error.split()[1]] }}"
+      loop: "{{ response_add.results }}"
+
+    - name: Show device id list
+      debug:
+        msg: "{{ device_uuid_list }}"
+
+    - name: Get CDG info
+      uri:
+        url: "https://{{ cnc_ip }}:{{ cnc_port }}/crosswork/dg-manager/v1/dg/query"
+        method: POST
+        body_format: json
+        body: "{}"
+        headers:
+          Content-Type: 'application/json'
+          Authorization: 'Bearer {{ response_token.content }}'
+        force_basic_auth: yes
+        validate_certs: no
+        status_code: [200, 204, 201]  # Expected success codes, adjust as needed.
+        return_content: yes
+      register: cdg_get_response
+
+    - name: Get CDG ID from previous response
+      set_fact:
+        cdg_uuid: "{{ cdg_get_response.json.data[0].configData.vdgUuid }}"
+    
+    - name: Attach Devices to CDG
+      uri:
+        url: "https://{{ cnc_ip }}:{{ cnc_port }}/crosswork/inventory/v1/dg/devicemapping"
+        method: PUT
+        body_format: json
+        body: "{{ lookup('template', 'attach_to_cdg_template.j2') }}"
+        headers:
+          Content-Type: 'application/json'
+          Authorization: 'Bearer {{ response_token.content }}'
+        force_basic_auth: yes
+        validate_certs: no
+        status_code: [200, 204, 201]  # Expected success codes, adjust as needed.
+        return_content: yes
+      register: attach_response
+
+    - name: Show final response
+      debug:
+        msg: "{{ attach_response }}"

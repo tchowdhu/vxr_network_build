@@ -1,0 +1,7 @@
+rsvp
+{% for rsvp_intf in rsvp_interfaces[inventory_hostname] %}
+ interface {{ rsvp_intf.name }}
+  bandwidth percentage {{ rsvp_intf.bw_percent }}
+ !
+{% endfor %}
+!

@@ -1,0 +1,42 @@
+mpls traffic-eng
+{% for mpls_intf in mpls_interfaces[inventory_hostname] %}
+ interface {{ mpls_intf.name }}
+ !
+{% endfor %}
+ pce
+  peer source ipv4 {{ rsvp_loopback_ips_v4[inventory_hostname] }}
+  peer ipv4 {{ pce_server_1 }}
+  stateful-client
+   instantiation
+   report
+  !
+ !
+ auto-tunnel pcc
+  tunnel-id min 1000 max 1999
+ !
+!
+mpls ldp
+ log
+  neighbor
+ !
+ mldp
+  logging notifications
+  address-family ipv4
+   make-before-break delay 0
+   forwarding recursive
+  exit
+ exit
+ address-family ipv4
+  label
+   local
+    allocate for no_ldp
+   !
+  !
+ !
+{% for mpls_intf in mpls_interfaces[inventory_hostname] %}
+ interface {{ mpls_intf.name }}
+ !
+{% endfor %}
+!
+mpls oam
+!

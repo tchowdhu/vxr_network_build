@@ -1,0 +1,10 @@
+---
+- name: Configure BGP on XR router
+  hosts: vxr_routers
+  gather_facts: false
+  tasks:
+
+    - name: Configure XR Router BGP
+      cisco.iosxr.iosxr_config:
+        src: templates/xr_config_router_bgp.j2
+        backup: no

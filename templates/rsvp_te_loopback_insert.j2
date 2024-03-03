@@ -1,0 +1,15 @@
+interface Loopback2
+ description Loopback for rsvp-te
+ ipv4 address {{ rsvp_loopback_ips_v4[inventory_hostname] }} 255.255.255.255
+ ipv6 address {{ rsvp_loopback_ips_v6[inventory_hostname] }}/128
+!
+
+router isis {{ isis_router_tag[inventory_hostname] }}
+ interface Loopback2
+  passive
+  circuit-type level-2-only
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !

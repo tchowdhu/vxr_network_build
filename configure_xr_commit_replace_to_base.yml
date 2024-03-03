@@ -1,0 +1,20 @@
+---
+- name: Commit Replace to Basic Config
+  hosts: vxr_routers
+  gather_facts: false
+
+  tasks:
+
+    - name: Load Base configuration from disk0:/ into running configuration
+      cisco.iosxr.iosxr_config:
+        lines:
+              - "load disk0:day_0_config"
+              - "commit"
+      register: load_result
+
+
+    - name: Print the result of the load operation
+      debug:
+        var: load_result
+
+

@@ -1,0 +1,10 @@
+---
+- name: Insert Loopback2 for RSVP TE
+  hosts: vxr_routers
+  gather_facts: false
+  tasks:
+
+    - name: Insert MPLS RSVP TE Loopback
+      cisco.iosxr.iosxr_config:
+        src: templates/rsvp_te_loopback_insert.j2
+        backup: no

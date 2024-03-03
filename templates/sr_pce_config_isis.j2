@@ -1,0 +1,53 @@
+interface Loopback0
+ ipv4 address {{ loopback_ips_v4[inventory_hostname] }} 255.255.255.255
+ ipv6 address {{ loopback_ips_v6[inventory_hostname] }}/128
+ no shutdown
+!
+
+interface {{ pce_p2p_intf }}
+ ipv4 address {{ pce_p2p_ipv4 }}
+ ipv6 address {{ pce_p2p_ipv6 }}
+ no shutdown
+!
+
+router isis {{ isis_router_tag[inventory_hostname] }}
+ net {{ isis_net_id[inventory_hostname] }}
+ distribute link-state
+ log adjacency changes
+ address-family ipv4 unicast
+  metric-style wide
+  router-id {{ loopback_ips_v4[inventory_hostname] }}
+  redistribute static
+ !
+ address-family ipv6 unicast
+  metric-style wide
+  advertise link attributes
+  router-id Loopback0
+  redistribute static
+ !
+ interface Loopback0
+  passive
+  circuit-type level-2-only
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+{% for intf in isis_interfaces[inventory_hostname] %}
+ interface {{ intf.name }}
+  circuit-type level-2-only
+ {% if intf.is_flex_algo == 1 %}
+  affinity flex-algo {{ intf.fles_algo_affinity }}
+ {% endif %}
+  point-to-point
+  address-family ipv4 unicast
+   fast-reroute per-prefix
+   fast-reroute per-prefix ti-lfa
+  !
+  address-family ipv6 unicast
+   fast-reroute per-prefix
+   fast-reroute per-prefix ti-lfa
+  !
+ !
+{% endfor %}
+

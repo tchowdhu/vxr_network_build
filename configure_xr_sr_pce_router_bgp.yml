@@ -1,0 +1,10 @@
+---
+- name: Configure BGP on SR-PCE router
+  hosts: sr_pce
+  gather_facts: false
+  tasks:
+
+    - name: Configure SR PCE BGP
+      cisco.iosxr.iosxr_config:
+        src: templates/sr_pce_config_router_bgp.j2
+        backup: no

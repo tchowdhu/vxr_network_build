@@ -1,0 +1,10 @@
+---
+- name: Configure Segment Routing on Cisco XR router
+  hosts: vxr_routers
+  gather_facts: false
+  tasks:
+
+    - name: Configure Segment Routing
+      cisco.iosxr.iosxr_config:
+        src: templates/segment_routing.j2
+        backup: no

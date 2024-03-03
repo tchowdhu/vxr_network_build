@@ -1,0 +1,10 @@
+---
+- name: Configure MPLS on Cisco XR router
+  hosts: vxr_routers
+  gather_facts: false
+  tasks:
+
+    - name: Configure MPLS
+      cisco.iosxr.iosxr_config:
+        src: templates/mpls_config.j2
+        backup: no

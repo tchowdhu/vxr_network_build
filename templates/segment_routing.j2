@@ -1,0 +1,61 @@
+segment-routing
+ global-block 16000 80000
+ traffic-eng
+  logging
+   policy status
+  !
+  on-demand color 10
+   dynamic
+    pcep
+    !
+    metric
+     type te
+    !
+   !
+  !
+  on-demand color 20
+   dynamic
+    pcep
+    !
+    metric
+     type igp
+    !
+   !
+   maximum-sid-depth 8
+  !
+  pcc
+   source-address ipv4 {{ loopback_ips_v4[inventory_hostname] }}
+   pce address ipv4 {{ pce_server_1 }}
+   report-all
+   profile 1
+    autoroute
+     include ipv4 all
+    exit
+   exit
+  exit
+ exit
+ srv6
+  locators
+   locator TOP
+    micro-segment behavior unode psp-usd
+    prefix {{ srv6_prefix[inventory_hostname].TOP }}
+    algorithm 129
+   !
+   locator MAIN
+    micro-segment behavior unode psp-usd
+    prefix {{ srv6_prefix[inventory_hostname].MAIN }}
+   !
+   locator BOTTOM
+    micro-segment behavior unode psp-usd
+    prefix {{ srv6_prefix[inventory_hostname].BOTTOM }}
+    algorithm 130
+   !
+   locator LATENCY
+    micro-segment behavior unode psp-usd
+    prefix {{ srv6_prefix[inventory_hostname].LATENCY }}
+    algorithm 128
+   !
+  !
+ !
+!
+

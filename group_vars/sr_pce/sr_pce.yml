@@ -1,0 +1,53 @@
+loopback_ips_v4:
+  SRPCE: 192.168.30.57
+
+loopback_ips_v6:
+  SRPCE: 2024::57
+
+grpc_port: 57400
+
+isis_router_tag:
+  SRPCE: 1
+
+isis_net_id:
+  SRPCE: 49.0010.0100.0057.00
+
+isis_interfaces:
+  SRPCE:
+    - name: GigabitEthernet0/0/0/0
+      is_flex_algo: no
+      fles_algo_affinity: NA
+
+
+pce_server_1: 192.168.30.57
+pce_p2p_intf: GigabitEthernet0/0/0/0
+pce_p2p_ipv4: 172.16.1.13/24
+pce_p2p_ipv6: 2001:db8:100::2/64
+
+
+bpg_local_as:
+  SRPCE: 65000
+
+bpg_remote_as:
+  SRPCE: 65000
+
+bgp_neighbors:
+  SRPCE:
+    - ip_v4: 30.30.30.1
+      is_rrc: 1
+      is_ls: 1
+    - ip_v4: 30.30.30.2
+      is_rrc: 1
+      is_ls: 0
+    - ip_v4: 30.30.30.3
+      is_rrc: 1
+      is_ls: 0
+    - ip_v4: 30.30.30.4
+      is_rrc: 1
+      is_ls: 0
+    - ip_v4: 30.30.30.5
+      is_rrc: 1
+      is_ls: 0
+    - ip_v4: 30.30.30.6
+      is_rrc: 1
+      is_ls: 0

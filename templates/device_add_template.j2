@@ -1,0 +1,84 @@
+{
+	  "data": [
+		{
+		  "inv_key_type": "NODE_IP",
+		  "node_ip": {
+			"inet_af": "ROBOT_INET_ADDR_TYPE_v4",
+			"inet_addr": "{{ ansible_host }}",
+			"mask": "{{ mask }}"
+		  },
+		  "profile": "{{ device_profile }}",
+		  "admin_state": "ROBOT_ADMIN_STATE_UP",
+		  "connectivity_info": [
+			{
+			  "type": "ROBOT_MSVC_TRANS_SSH",
+			  "ipaddrs": [
+				{
+				  "inet_af": "ROBOT_INET_ADDR_TYPE_v4",
+				  "inet_addr": "{{ ansible_host }}",
+				  "mask": "{{ mask }}"
+				}
+			  ],
+			  "port": "22",
+			  "timeout": "120",
+			  "reachability_state": "CONN_STATE_REACHABLE"
+			},
+			{
+			  "type": "ROBOT_MSVC_TRANS_SNMP",
+			  "ipaddrs": [
+				{
+				  "inet_af": "ROBOT_INET_ADDR_TYPE_v4",
+				  "inet_addr": "{{ ansible_host }}",
+				  "mask": "{{ mask }}"
+				}
+			  ],
+			  "port": "161",
+			  "timeout": "120",
+			  "reachability_state": "CONN_STATE_REACHABLE"
+			},
+			{
+			  "type": "ROBOT_MSVC_TRANS_NETCONF",
+			  "ipaddrs": [
+				{
+				  "inet_af": "ROBOT_INET_ADDR_TYPE_v4",
+				  "inet_addr": "{{ ansible_host }}",
+				  "mask": "{{ mask }}"
+				}
+			  ],
+			  "port": "830",
+			  "timeout": "120",
+			  "reachability_state": "CONN_STATE_REACHABLE"
+			},
+			{
+			  "type": "ROBOT_MSVC_TRANS_GNMI",
+			  "ipaddrs": [
+				{
+				  "inet_af": "ROBOT_INET_ADDR_TYPE_v4",
+				  "inet_addr": "{{ ansible_host }}",
+				  "mask": "{{ mask }}"
+				}
+			  ],
+			  "port": "57400",
+			  "timeout": "120",
+			  "reachability_state": "CONN_STATE_REACHABLE",
+			  "encoding_type": "PROTO"
+			}
+		  ],
+		  "product_info": {
+			"capability": [
+			  "SNMP",
+			  "GNMI",
+			  "YANG_MDT",
+			  "YANG_CLI"
+			]
+		  },
+		  "provider": {
+			"ROBOT_PROVIDER_CFG_LOCAL": {
+			  "provider_name": "{{ nso_provider_name }}"
+			}
+		  },
+		  "reachability_check": "REACH_CHECK_ENABLE"
+		}
+	  ],
+	  "user": "admin"
+}

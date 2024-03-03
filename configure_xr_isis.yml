@@ -1,0 +1,14 @@
+---
+- name: Configure ISIS on Cisco XR router
+  hosts: vxr_routers
+  gather_facts: false
+  tasks:
+
+    - name: Define ISIS configuration
+      cisco.iosxr.iosxr_config:
+        src: templates/isis_config.j2
+        backup: no
+      vars:
+        - algorithm_128_sid: "{{ sr_stc_abs_sid[inventory_hostname] + 200 }}"
+        - algorithm_129_sid: "{{ sr_stc_abs_sid[inventory_hostname] + 300 }}"
+        - algorithm_130_sid: "{{ sr_stc_abs_sid[inventory_hostname] + 400 }}"

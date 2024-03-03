@@ -1,0 +1,195 @@
+---
+- name: Configure full mesh network on Cisco XR routers with IPv4 and IPv6
+  hosts: vxr_routers
+  gather_facts: no
+  tasks:
+    - name: Enable interfaces on VXR1
+      cisco.iosxr.iosxr_interfaces:
+        config:
+          - name: GigabitEthernet0/0/0/0
+            enabled: true
+          - name: GigabitEthernet0/0/0/1
+            enabled: true
+          - name: GigabitEthernet0/0/0/2
+            description: VLAN-100
+            enabled: true
+      when: inventory_hostname == 'VXR1'
+
+    - name: Configure interfaces on VXR1
+      cisco.iosxr.iosxr_l3_interfaces:
+
+        config:
+          - name: GigabitEthernet0/0/0/0
+            ipv4:
+              - address: 192.168.1.1/30
+            ipv6:
+              - address: 2001:db8:1::1/64
+
+          - name: GigabitEthernet0/0/0/1
+            ipv4:
+              - address: 192.168.1.5/30
+
+            ipv6:
+              - address: 2001:db8:2::1/64
+
+          - name: GigabitEthernet0/0/0/2
+            ipv4:
+              - address: 172.16.1.33/24
+
+            ipv6:
+              - address: 2001:db8:100::1/64
+      when: inventory_hostname == 'VXR1'
+
+    - name: Enable interfaces on VXR2
+      cisco.iosxr.iosxr_interfaces:
+        config:
+          - name: GigabitEthernet0/0/0/0
+            enabled: true
+          - name: GigabitEthernet0/0/0/1
+            enabled: true
+          - name: GigabitEthernet0/0/0/2
+            enabled: true
+      when: inventory_hostname == 'VXR2'
+
+    - name: Configure interfaces on VXR2
+      cisco.iosxr.iosxr_l3_interfaces:
+        config:
+          - name: GigabitEthernet0/0/0/0
+            ipv4:
+              - address: 192.168.1.2/30
+            ipv6:
+              - address: 2001:db8:1::2/64
+
+          - name: GigabitEthernet0/0/0/1
+            ipv4:
+              - address: 192.168.1.9/30
+            ipv6:
+              - address: 2001:db8:3::1/64
+
+          - name: GigabitEthernet0/0/0/2
+            ipv4:
+              - address: 192.168.1.25/30
+            ipv6:
+              - address: 2001:db8:24::1/64
+      when: inventory_hostname == 'VXR2'
+
+    - name: Enable interfaces on VXR3
+      cisco.iosxr.iosxr_interfaces:
+        config:
+          - name: GigabitEthernet0/0/0/0
+            enabled: true
+          - name: GigabitEthernet0/0/0/1
+            enabled: true
+          - name: GigabitEthernet0/0/0/2
+            enabled: true
+      when: inventory_hostname == 'VXR3'
+
+    - name: Configure interfaces on VXR3
+      cisco.iosxr.iosxr_l3_interfaces:
+        config:
+          - name: GigabitEthernet0/0/0/0
+            ipv4:
+              - address: 192.168.1.6/30
+            ipv6:
+              - address: 2001:db8:2::2/64
+
+          - name: GigabitEthernet0/0/0/1
+            ipv4:
+              - address: 192.168.1.10/30
+            ipv6:
+              - address: 2001:db8:3::2/64
+
+          - name: GigabitEthernet0/0/0/2
+            ipv4:
+              - address: 192.168.1.29/30
+            ipv6:
+              - address: 2001:db8:35::1/64
+      when: inventory_hostname == 'VXR3'
+
+    - name: Enable interfaces on VXR4
+      cisco.iosxr.iosxr_interfaces:
+        config:
+          - name: GigabitEthernet0/0/0/0
+            enabled: true
+          - name: GigabitEthernet0/0/0/1
+            enabled: true
+          - name: GigabitEthernet0/0/0/2
+            enabled: true
+      when: inventory_hostname == 'VXR4'
+
+    - name: Configure interfaces on VXR4
+      cisco.iosxr.iosxr_l3_interfaces:
+        config:
+          - name: GigabitEthernet0/0/0/0
+            ipv4:
+              - address: 192.168.1.14/30
+            ipv6:
+              - address: 2001:db8:4::1/64
+
+          - name: GigabitEthernet0/0/0/1
+            ipv4:
+              - address: 192.168.1.17/30
+            ipv6:
+              - address: 2001:db8:6::1/64
+
+          - name: GigabitEthernet0/0/0/2
+            ipv4:
+              - address: 192.168.1.26/30
+            ipv6:
+              - address: 2001:db8:24::2/64
+      when: inventory_hostname == 'VXR4'
+
+    - name: Enable interfaces on VXR5
+      cisco.iosxr.iosxr_interfaces:
+        config:
+          - name: GigabitEthernet0/0/0/0
+            enabled: true
+          - name: GigabitEthernet0/0/0/1
+            enabled: true
+          - name: GigabitEthernet0/0/0/2
+            enabled: true
+      when: inventory_hostname == 'VXR5'
+
+    - name: Configure interfaces on VXR5
+      cisco.iosxr.iosxr_l3_interfaces:
+        config:
+          - name: GigabitEthernet0/0/0/0
+            ipv4:
+              - address: 192.168.1.22/30
+            ipv6:
+              - address: 2001:db8:5::1/64
+          - name: GigabitEthernet0/0/0/1
+            ipv4:
+              - address: 192.168.1.18/30
+            ipv6:
+              - address: 2001:db8:6::2/64
+          - name: GigabitEthernet0/0/0/2
+            ipv4:
+              - address: 192.168.1.30/30
+            ipv6:
+              - address: 2001:db8:35::2/64
+      when: inventory_hostname == 'VXR5'
+
+    - name: Enable interfaces on VXR6
+      cisco.iosxr.iosxr_interfaces:
+        config:
+          - name: GigabitEthernet0/0/0/0
+            enabled: true
+          - name: GigabitEthernet0/0/0/1
+            enabled: true
+      when: inventory_hostname == 'VXR6'
+
+    - name: Configure interfaces on VXR6
+      cisco.iosxr.iosxr_l3_interfaces:
+        config:
+          - name: GigabitEthernet0/0/0/0
+            ipv4:
+              - address: 192.168.1.13/30
+            ipv6:
+              - address: 2001:db8:4::2/64
+          - name: GigabitEthernet0/0/0/1
+            ipv4:
+              - address: 192.168.1.21/30
+            ipv6:
+              - address: 2001:db8:5::2/64
+      when: inventory_hostname == 'VXR6'

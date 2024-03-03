@@ -1,0 +1,10 @@
+---
+- name: Configure ISIS on SR PCE vXR Router
+  hosts: sr_pce
+  gather_facts: false
+  tasks:
+
+    - name: Configure SR PCE ISIS
+      cisco.iosxr.iosxr_config:
+        src: templates/sr_pce_config_isis.j2
+        backup: no
