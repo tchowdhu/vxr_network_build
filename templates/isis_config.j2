@@ -1,6 +1,7 @@
 router isis {{ isis_router_tag[inventory_hostname] }}
  net {{ isis_net_id[inventory_hostname] }}
  distribute link-state
+ nsr
  log adjacency changes
  affinity-map top bit-position 101
  affinity-map bottom bit-position 102
